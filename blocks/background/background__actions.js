@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var MSG = window.vkScrobbler.contentMessages;
+  const MSG = window.vkScrobbler.contentMessages;
   var LastFmApi = window.vkScrobbler.LastFmApi;
   var log = window.vkScrobbler.log;
 
@@ -47,7 +47,7 @@
 
   BackgroundActions.prototype[MSG.GET_TRACK_INFO] = function (params) {
     return this.api.getTrackInfo(params).then(function (res) {
-      console.table(res.track);
+      console.log(res.track);
       return res;
     });
   };

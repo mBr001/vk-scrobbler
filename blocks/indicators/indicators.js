@@ -1,4 +1,4 @@
-(function(){
+(function() {
   'use strict';
 
   var EIndicateState = window.vkScrobbler.IdicatorsUtils.EIndicateState;
@@ -7,6 +7,7 @@
   var byId = document.getElementById.bind(document);
   var qs = document.querySelector.bind(document);
   var qsa = document.querySelectorAll.bind(document);
+  var gebc = document.getElementsByClassName.bind(document);
 
   var Indicators = {
     htmls: {
@@ -44,33 +45,41 @@
       lovePD: `<div id="loveDivPD" class="indicators__love"><img class="indicators__icon" title="VK scrobbler: love" src="${PATHS.HEART_GRAY}"></div>`
     },
 
-    setListeners: function (listeners) {
+    setListeners: function(listeners) {
       this.listeners = listeners;
     },
 
-    SetHeaderIndicator: function () {
+    SetHeaderIndicator: function() {
       Indicators.SetMiniIndicator();
       Indicators.indicateStatus();
     },
 
-    SetAudioPageIndicators: function () {
+    SetAudioPageIndicators: function() {
       Indicators.SetAcIndicator();
       Indicators.SetLoveAC();
       Indicators.SetTwitterAC();
       Indicators.indicateStatus();
     },
 
-    SetDropdownIndicators: function () {
+    SetDropdownIndicators: function() {
       Indicators.SetPdIndicator();
       Indicators.SetLovePD();
       Indicators.SetTwitterPD();
       Indicators.indicateStatus();
     },
 
+    setAlbumCover: function(imgUrl) {
+      console.log("indicators: album cover", imgUrl);
+      let playButtonArray = document.getElementsByClassName("audio_page_player_play");
+      let bgImg = "url('" + imgUrl + "')";
+      console.log(bgImg);
+      [].slice.call(playButtonArray).map((div) => div.style.backgroundImage = bgImg);
+    },
+
     /**
      * Обновляет текущий статус
      */
-    indicateStatus: function () {
+    indicateStatus: function() {
       switch (Indicators.indicate) {
         case EIndicateState.nowplaying:
           Indicators.indicatePlayNow();
@@ -90,75 +99,75 @@
       this.twitLink && Indicators.setTwitButtonHref(this.twitLink);
     },
 
-    setTwitButtonHref: function (link) {
+    setTwitButtonHref: function(link) {
       this.twitLink = link;
       [].forEach.call(qsa('#twitLinkAC, #twitLinkPD'), function(twitLink) {
         twitLink.href = link;
       });
     },
 
-    SetMiniIndicator: function () {
+    SetMiniIndicator: function() {
       if (!byId('nowIndicator') && byId('top_audio')) {
         byId('top_audio').insertAdjacentHTML('beforebegin', Indicators.htmls.headerIndicator);
         byId('nowIndicator').addEventListener('click', this.listeners.togglePauseScrobbling);
       }
     },
 
-    SetAcIndicator: function () {
+    SetAcIndicator: function() {
       if (qs(".page_block .audio_page_player") && !byId("nowIndAC")) {
         qs('.page_block .audio_page_player_volume_slider').insertAdjacentHTML('beforebegin', Indicators.htmls.acIndicator);
         byId('nowIndAC').addEventListener('click', this.listeners.togglePauseScrobbling);
       }
     },
 
-    SetPdIndicator: function () {
+    SetPdIndicator: function() {
       if (qs('.top_audio_layer') && !byId('nowIndPD')) {
         qs('.top_audio_layer .audio_page_player_volume_slider').insertAdjacentHTML('beforebegin', Indicators.htmls.pdIndicator);
         byId('nowIndPD').addEventListener('click', this.listeners.togglePauseScrobbling);
       }
     },
 
-    SetTwitterAC: function () {
+    SetTwitterAC: function() {
       if (qs(".page_block .audio_page_player") && !byId("twitterDivAC")) {
         qs('.page_block .audio_page_player_volume_slider').insertAdjacentHTML('beforebegin', Indicators.htmls.twitAChtml);
       }
     },
 
-    SetTwitterPD: function () {
+    SetTwitterPD: function() {
       if (qs('.top_audio_layer') && !byId("twitterDivPD")) {
         qs('.top_audio_layer .audio_page_player_volume_slider').insertAdjacentHTML('beforebegin', Indicators.htmls.twitPDhtml);
       }
     },
 
-    _loveClickListener: function (e) {
+    _loveClickListener: function(e) {
       var pulseClassName = 'indicators__love_pulse';
       if (e.target.classList.contains(pulseClassName)) {
         return;
       }
       e.target.classList.add(pulseClassName);
 
-      this.listeners.toggleLove(Indicators.love).then(function () {
+      this.listeners.toggleLove(Indicators.love).then(function() {
         e.target.classList.remove(pulseClassName);
-      }, function () {
+      }, function() {
         e.target.classList.remove(pulseClassName);
       });
     },
 
-    SetLoveAC: function () {
+    SetLoveAC: function() {
       if (qs('.page_block .audio_page_player') && !byId('loveDivAC')) {
         qs('.page_block .audio_page_player_volume_slider').insertAdjacentHTML('beforebegin', Indicators.htmls.loveAC);
         byId('loveDivAC').addEventListener('click', this._loveClickListener.bind(this));
       }
     },
 
-    SetLovePD: function () {
+    SetLovePD: function() {
       if (qs('.top_audio_layer') && !byId('loveDivPD')) {
         qs('.top_audio_layer .audio_page_player_volume_slider').insertAdjacentHTML('beforebegin', Indicators.htmls.lovePD);
         byId('loveDivPD').addEventListener('click', this._loveClickListener.bind(this));
       }
     },
 
-    updatePlayingIndicators: function (newImgSrc, newTitle) {
+    updatePlayingIndicators: function(newImgSrc, newTitle) {
       [].forEach.call(qsa('#nowIndAC img, #nowIndPD img, #nowIndicator img'), function(image) {
         if (image.src !== newImgSrc) {
           image.src = newImgSrc;
@@ -167,27 +176,27 @@
       });
     },
 
-    indicatePlayNow: function () {
+    indicatePlayNow: function() {
       Indicators.indicate = EIndicateState.nowplaying;
       this.updatePlayingIndicators(PATHS.PLAYING, "VK scrobbler: now playing");
     },
 
-    indicateVKscrobbler: function () {
+    indicateVKscrobbler: function() {
       Indicators.indicate = EIndicateState.logotype;
       this.updatePlayingIndicators(PATHS.PAUSE, "VK scrobbler");
     },
 
-    indicatePauseScrobbling: function () {
+    indicatePauseScrobbling: function() {
       Indicators.indicate = EIndicateState.paused;
       this.updatePlayingIndicators(PATHS.DISABLED, "VK scrobbler: paused");
     },
 
-    indicateScrobbled: function () {
+    indicateScrobbled: function() {
       Indicators.indicate = EIndicateState.scrobbled;
       this.updatePlayingIndicators(PATHS.SCROBBLED, "VK scrobbler: scrobbled");
     },
 
-    indicateLoved: function () {
+    indicateLoved: function() {
       Indicators.love = true;
       [].forEach.call(qsa("#loveDivAC img, #loveDivPD img"), function(image) {
         image.src = PATHS.HEART_BLUE;
@@ -196,7 +205,7 @@
 
     },
 
-    indicateNotLove: function () {
+    indicateNotLove: function() {
       Indicators.love = false;
       [].forEach.call(qsa("#loveDivAC img, #loveDivPD img"), function(image) {
         image.src = PATHS.HEART_GRAY;
@@ -211,5 +220,3 @@
 
   window.vkScrobbler.Indicators = Indicators;
 })();
-
-

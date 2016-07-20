@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
   var isOldUI = Boolean(document.getElementById('top_new_msg')); //new UI doesn't have this element
 
@@ -28,7 +28,7 @@
     this.setUpIndicatorsListeners();
   }
 
-  PlayerHandlers.prototype.progress = function (data) {
+  PlayerHandlers.prototype.progress = function(data) {
     if (!this.state.playing) {
       return;
     }
@@ -41,13 +41,13 @@
     this.scrobbleIfNeeded(playedPercent);
   };
 
-  PlayerHandlers.prototype.pause = function () {
+  PlayerHandlers.prototype.pause = function() {
     this.state.playing = false;
     this.state.playTimeStamp = null;
     this.indicateScrobblerStatus();
   };
 
-  PlayerHandlers.prototype.resume = function (data) {
+  PlayerHandlers.prototype.resume = function(data) {
     if (!this.state.artist && !this.state.artist) {
       return this.playStart(data);
     }
@@ -56,12 +56,12 @@
     this.indicateScrobblerStatus();
   };
 
-  PlayerHandlers.prototype.stop = function () {
+  PlayerHandlers.prototype.stop = function() {
     this.state.playing = false;
     this.state.enabled && Indicators.indicateVKscrobbler();
   };
 
-  PlayerHandlers.prototype.playStart = function (data) {
+  PlayerHandlers.prototype.playStart = function(data) {
     this.state.artist = data.artist;
     this.state.track = data.title;
 
@@ -74,20 +74,22 @@
     this.state.enabled && Indicators.indicatePlayNow();
     Indicators.setTwitButtonHref(utils.getTwitLink(data.artist, data.title));
     this.checkTrackLove(data.artist, data.title);
+
+    this.showAlbumCover(data.artist, data.title);
   };
 
-  PlayerHandlers.prototype.isNowPlayingIntervalPassed = function () {
+  PlayerHandlers.prototype.isNowPlayingIntervalPassed = function() {
     return Date.now() - this.state.nowPlayingSendTimeStamp > nowPlayingInterval;
   };
 
-  PlayerHandlers.prototype.sendNowPlayingIfNeeded = function () {
+  PlayerHandlers.prototype.sendNowPlayingIfNeeded = function() {
     if (this.state.enabled && (!this.state.nowPlayingSendTimeStamp || this.isNowPlayingIntervalPassed())) {
       this.busWrapper.sendNowPlayingRequest(this.state.artist, this.state.track);
       this.state.nowPlayingSendTimeStamp = Date.now();
     }
   };
 
-  PlayerHandlers.prototype.scrobbleIfNeeded = function (percent) {
+  PlayerHandlers.prototype.scrobbleIfNeeded = function(percent) {
     if (this.state.enabled &&
       !this.state.scrobbled &&
       !this.state.scrobbling &&
@@ -96,7 +98,7 @@
       percent > SCROBBLE_PERCENTAGE) {
       this.state.scrobbling = true;
       this.busWrapper.sendScrobleRequest(this.state.artist, this.state.track)
-        .then(function () {
+        .then(function() {
           this.state.scrobbling = false;
           this.state.scrobbled = true;
           Indicators.indicateScrobbled();
@@ -106,15 +108,15 @@
     }
   };
 
-  PlayerHandlers.prototype.isSameTrack = function (artist, track) {
+  PlayerHandlers.prototype.isSameTrack = function(artist, track) {
     return this.state.artist === artist && this.state.track === track;
   };
 
-  PlayerHandlers.prototype.checkTrackLove = function (artist, track) {
+  PlayerHandlers.prototype.checkTrackLove = function(artist, track) {
     Indicators.indicateNotLove();
 
     return this.busWrapper.getTrackInfoRequest(artist, track)
-      .then(function (response) {
+      .then(function(response) {
         var loved = response.track && response.track.userloved === '1';
         if (loved && this.isSameTrack(artist, track)) {
           Indicators.indicateLoved();
@@ -122,7 +124,7 @@
       }.bind(this));
   };
 
-  PlayerHandlers.prototype.indicateScrobblerStatus = function () {
+  PlayerHandlers.prototype.indicateScrobblerStatus = function() {
     if (!this.state.enabled) {
       Indicators.indicatePauseScrobbling();
     } else if (this.state.scrobbled) {
@@ -134,11 +136,13 @@
     }
   };
 
-  PlayerHandlers.prototype.setUpIndicatorsListeners = function () {
+  PlayerHandlers.prototype.setUpIndicatorsListeners = function() {
     Indicators.setListeners({
-      toggleLove: function (isLove) {
+      toggleLove: function(isLove) {
         if (!this.state.artist || !this.state.track) {
-          return new Promise(function(resolve, reject) {reject();});
+          return new Promise(function(resolve, reject) {
+            reject();
+          });
         }
         if (isLove) {
           return this.busWrapper.sendUnlove(this.state.artist, this.state.track).then(Indicators.indicateNotLove);
@@ -152,6 +156,16 @@
         this.busWrapper.sendPauseStatus(this.state.artist, this.state.track, !this.state.enabled);
       }.bind(this)
     });
+  };
+
+  PlayerHandlers.prototype.showAlbumCover = function(artist, track) {
+    return this.busWrapper.getTrackInfoRequest(artist, track)
+      .then(function(response) {
+        if (response.track.album) {
+          Indicators.setAlbumCover(response.track.album.image[1]["#text"]);
+          console.log("Set album cover: ", response.track.album.image[1]["#text"]);
+        }
+      }.bind(this));
   };
 
   window.vkScrobbler.PlayerHandlers = PlayerHandlers;
