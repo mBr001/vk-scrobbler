@@ -5,6 +5,8 @@
   const SCROBBLE_PERCENTAGE = 50;
   var nowPlayingInterval = 15 * 1000;
 
+  var log = window.vkScrobbler.log;
+
   var utils = window.vkScrobbler.ContentUils;
   var Indicators = isOldUI ? window.vkScrobbler.IndicatorsOld : window.vkScrobbler.Indicators;
   var BusWrapper = window.vkScrobbler.ContentBusWrapper;
@@ -16,6 +18,8 @@
       playing: false,
       scrobbled: false,
       scrobbling: false,
+
+      firstPlay: true,
 
       artist: null,
       track: null,
@@ -73,9 +77,12 @@
 
     this.state.enabled && Indicators.indicatePlayNow();
     Indicators.setTwitButtonHref(utils.getTwitLink(data.artist, data.title));
-    this.checkTrackLove(data.artist, data.title);
 
-    this.showAlbumCover(data.artist, data.title);
+    this.busWrapper.getTrackInfoRequest(data.artist, data.title)
+      .then(function(response) {
+        this.checkTrackLove(response, data.artist, data.title);
+        this.showAlbumCover(response);
+      }.bind(this));
   };
 
   PlayerHandlers.prototype.isNowPlayingIntervalPassed = function() {
@@ -112,16 +119,15 @@
     return this.state.artist === artist && this.state.track === track;
   };
 
-  PlayerHandlers.prototype.checkTrackLove = function(artist, track) {
+  PlayerHandlers.prototype.checkTrackLove = function(response, artist, track) {
     Indicators.indicateNotLove();
 
-    return this.busWrapper.getTrackInfoRequest(artist, track)
-      .then(function(response) {
-        var loved = response.track && response.track.userloved === '1';
-        if (loved && this.isSameTrack(artist, track)) {
-          Indicators.indicateLoved();
-        }
-      }.bind(this));
+    var loved = response.track && response.track.userloved === '1';
+    log.i("Is this track loved: "+loved);
+    if (loved && this.isSameTrack(artist, track)) {
+      log.i("Indicate loved");
+      Indicators.indicateLoved();
+    }
   };
 
   PlayerHandlers.prototype.indicateScrobblerStatus = function() {
@@ -158,14 +164,11 @@
     });
   };
 
-  PlayerHandlers.prototype.showAlbumCover = function(artist, track) {
-    return this.busWrapper.getTrackInfoRequest(artist, track)
-      .then(function(response) {
-        if (response.track.album) {
-          Indicators.setAlbumCover(response.track.album.image[1]["#text"]);
-          console.log("Set album cover: ", response.track.album.image[1]["#text"]);
-        }
-      }.bind(this));
+  PlayerHandlers.prototype.showAlbumCover = function(response) {
+    if (response.track.album) {
+      Indicators.setAlbumCover(response.track.album.image[1]["#text"]);
+      console.log("Set album cover: ", response.track.album.image[1]["#text"]);
+    }
   };
 
   window.vkScrobbler.PlayerHandlers = PlayerHandlers;

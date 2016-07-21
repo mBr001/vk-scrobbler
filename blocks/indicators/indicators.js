@@ -7,7 +7,6 @@
   var byId = document.getElementById.bind(document);
   var qs = document.querySelector.bind(document);
   var qsa = document.querySelectorAll.bind(document);
-  var gebc = document.getElementsByClassName.bind(document);
 
   var Indicators = {
     htmls: {
@@ -70,9 +69,9 @@
 
     setAlbumCover: function(imgUrl) {
       console.log("indicators: album cover", imgUrl);
-      let playButtonArray = document.getElementsByClassName("audio_page_player_play");
+      let playButtonArray = qsa(".audio_page_player_play");
       let bgImg = "url('" + imgUrl + "')";
-      console.log(bgImg);
+      console.log(playButtonArray);
       [].slice.call(playButtonArray).map((div) => div.style.backgroundImage = bgImg);
     },
 
