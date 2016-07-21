@@ -165,10 +165,8 @@
   };
 
   PlayerHandlers.prototype.showAlbumCover = function(response) {
-    if (response.track.album) {
-      Indicators.setAlbumCover(response.track.album.image[1]["#text"]);
-      console.log("Set album cover: ", response.track.album.image[1]["#text"]);
-    }
+    let imgUrl = response.track.album && response.track.album.image[1]["#text"];
+    Indicators.setAlbumCover(imgUrl);
   };
 
   window.vkScrobbler.PlayerHandlers = PlayerHandlers;

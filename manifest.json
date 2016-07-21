@@ -65,6 +65,7 @@
     "blocks/indicators/__icon/indicators__icon-equalizer.gif",
     "blocks/indicators/__icon/indicators__icon-pause.png",
     "blocks/indicators/__icon/indicators__icon-check-blue.png",
+    "blocks/indicators/__icon/indicators__albumCover.png",
     "blocks/namespace/*",
     "blocks/namespace/namespace.js",
     "blocks/log/log.js",
