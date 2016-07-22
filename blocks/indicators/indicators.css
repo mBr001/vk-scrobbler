@@ -59,6 +59,7 @@
 }
 /* Overriding VK.com style */
 
+/* Container for playIcon */
 .audio_page_player .audio_page_player_play {
   /* Making album cover fit in */
   padding: 18px !important;
@@ -67,6 +68,7 @@
 .audio_page_player .audio_page_player_play:hover .playIcon {
   opacity: 1;
 }
+
 .playIcon {
   background-color: transparent !important;
   transition: opacity 0.5s, background-color .5s ease-out;
@@ -74,4 +76,9 @@
 }
 .playIcon:hover {
   opacity: 1;
+}
+
+/* Container for seekbar, artist & trackname */
+.audio_page_player .audio_page_player_track_wrap {
+  padding-top: 16px !important;
 }
