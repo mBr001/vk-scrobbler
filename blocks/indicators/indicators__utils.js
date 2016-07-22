@@ -15,8 +15,7 @@
     SCROBBLED: chrome.extension.getURL('blocks/indicators/__icon/indicators__icon-check-blue.png'),
     TWITTER: chrome.extension.getURL("blocks/indicators/__icon/indicators__icon-tweet.png"),
     HEART_GRAY: chrome.extension.getURL("blocks/indicators/__icon/indicators__icon-unlove.png"),
-    HEART_BLUE: chrome.extension.getURL("blocks/indicators/__icon/indicators__icon-love.png"),
-    DEFAULT_COVER: chrome.extension.getURL("blocks/indicators/__icon/indicators__defaultCover.png")
+    HEART_BLUE: chrome.extension.getURL("blocks/indicators/__icon/indicators__icon-love.png")
   };
 
   /**

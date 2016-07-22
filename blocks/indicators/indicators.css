@@ -57,3 +57,14 @@
   animation-iteration-count: infinite;
   animation-timing-function: ease;
 }
+
+/* Overriding VK.com style */
+
+.audio_page_player .audio_page_player_play {
+  /* Making album cover fit in */
+  padding: 18px !important;
+}
+
+.playIcon {
+  background-color: transparent !important;
+}

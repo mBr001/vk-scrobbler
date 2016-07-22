@@ -42,6 +42,7 @@
       "blocks/indicators/indicators__utils.js",
       "blocks/indicators/indicators.js",
       "blocks/indicators/indicators__old.js",
+      "blocks/indicators/album.js",
       "blocks/bus/bus__content.js",
       "blocks/content/content__messages.js",
       "blocks/content/content__bus-wrapper.js",

@@ -67,16 +67,6 @@
       Indicators.indicateStatus();
     },
 
-    setAlbumCover: function(imgUrl) {
-      let playButtonArray = qsa(".audio_page_player_play");
-      let bgImg = "url('" + PATHS.DEFAULT_COVER + "')";
-      if (imgUrl) {
-        console.log(bgImg);
-        bgImg = "url('" + imgUrl + "')";
-      }
-      [].slice.call(playButtonArray).map((div) => div.style.backgroundImage = bgImg);
-    },
-
     /**
      * Обновляет текущий статус
      */

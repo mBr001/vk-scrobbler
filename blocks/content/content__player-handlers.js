@@ -9,6 +9,7 @@
 
   var utils = window.vkScrobbler.ContentUils;
   var Indicators = isOldUI ? window.vkScrobbler.IndicatorsOld : window.vkScrobbler.Indicators;
+  let album = window.vkScrobbler.album;
   var BusWrapper = window.vkScrobbler.ContentBusWrapper;
 
   function PlayerHandlers() {
@@ -166,7 +167,8 @@
 
   PlayerHandlers.prototype.showAlbumCover = function(response) {
     let imgUrl = response.track.album && response.track.album.image[1]["#text"];
-    Indicators.setAlbumCover(imgUrl);
+    album.modifyPlayer();
+    album.setAlbumCover(imgUrl);
   };
 
   window.vkScrobbler.PlayerHandlers = PlayerHandlers;
