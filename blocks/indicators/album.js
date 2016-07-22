@@ -5,6 +5,7 @@
   const DEFAULT_COVER =  chrome.extension.getURL("blocks/indicators/__icon/indicators__defaultCover.png");
 
   let album = {
+    // returning all selectors with particular classname
     getPlayButtonArray: (className) => qsa(className),
 
     setAlbumCover: function(imgUrl) {
@@ -18,6 +19,7 @@
     },
 
     modifyPlayer: function() {
+      // modifying VK player in dropdown and audio page
       let playButtonArray = this.getPlayButtonArray(".audio_page_player_play");
 
       [].slice.call(playButtonArray).map((div) => div.firstElementChild.classList.add("playIcon"));

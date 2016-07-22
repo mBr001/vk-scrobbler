@@ -1,9 +1,7 @@
-
 .indicators__icon {
   width: 16px;
   height: 16px;
 }
-
 .indicators__status {
   position: relative;
   top: -18px;
@@ -11,7 +9,6 @@
   height: 14px;
   cursor: pointer;
 }
-
 .indicators__status_mini {
   position: relative;
   display: inline-block;
@@ -21,12 +18,10 @@
   filter: grayscale(80%) brightness(185%);
   -webkit-filter: grayscale(80%) brightness(185%);
 }
-
 .indicators__status_mini:hover {
   filter: grayscale(80%) brightness(300%);
   -webkit-filter: grayscale(80%) brightness(300%);
 }
-
 .indicators__twit {
   float: right;
   position: relative;
@@ -34,7 +29,6 @@
   padding-right: 1px;
   height: 12px;
 }
-
 .indicators__love {
   float: right;
   position: relative;
@@ -43,28 +37,41 @@
   height: 12px;
   cursor: pointer;
 }
-
 @keyframes pulse_animation {
-  0% { transform: scale(1); }
-  40% { transform: scale(1); }
-  70% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1);
+  }
+  70% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
-
 .indicators__love_pulse {
   animation-name: pulse_animation;
   animation-duration: 700ms;
   animation-iteration-count: infinite;
   animation-timing-function: ease;
 }
-
 /* Overriding VK.com style */
 
 .audio_page_player .audio_page_player_play {
   /* Making album cover fit in */
   padding: 18px !important;
+  opacity: 1 !important;
 }
-
+.audio_page_player .audio_page_player_play:hover .playIcon {
+  opacity: 1;
+}
 .playIcon {
   background-color: transparent !important;
+  transition: opacity 0.5s, background-color .5s ease-out;
+  opacity: 0;
+}
+.playIcon:hover {
+  opacity: 1;
 }
