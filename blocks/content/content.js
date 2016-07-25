@@ -2,6 +2,7 @@
   'use strict';
   var Indicators = window.vkScrobbler.Indicators;
   var IndicatorsOld = window.vkScrobbler.IndicatorsOld;
+  var album = window.vkScrobbler.album;
   var playerHandlers = new window.vkScrobbler.PlayerHandlers();
   var scriptInjector = window.vkScrobbler.scriptInjector;
   var isOldUI = Boolean(document.getElementById('top_new_msg')); //new UI doesn't have this element
@@ -78,6 +79,7 @@
       instantIndicatorsInserterOld();
     } else {
       instantIndicatorsInserter();
+      album.modifyPlayer();
     }
 
     scriptInjector.injectPatcher();

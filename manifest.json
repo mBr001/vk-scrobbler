@@ -39,10 +39,10 @@
     "js": [
       "blocks/namespace/namespace.js",
       "blocks/log/log.js",
-      "blocks/indicators/indicators__utils.js",
-      "blocks/indicators/indicators.js",
-      "blocks/indicators/indicators__old.js",
-      "blocks/indicators/album.js",
+      "blocks/player-view/player-view__utils.js",
+      "blocks/player-view/player-view__indicators.js",
+      "blocks/player-view/player-view__indicators__old.js",
+      "blocks/player-view/player-view__album.js",
       "blocks/bus/bus__content.js",
       "blocks/content/content__messages.js",
       "blocks/content/content__bus-wrapper.js",
@@ -52,21 +52,21 @@
       "blocks/content/content.js"
     ],
     "css": [
-      "blocks/indicators/indicators.css",
-      "blocks/indicators/indicators__old.css"
+      "blocks/player-view/__css/indicators.css",
+      "blocks/player-view/__css/indicators__old.css"
     ]
   }],
   "homepage_url": "http://vkontakte.ru/vk_scrobbler",
   "web_accessible_resources": [
-    "blocks/indicators/__icon/*",
-    "blocks/indicators/__icon/indicators__icon-tweet.png",
-    "blocks/indicators/__icon/indicators__icon-love.png",
-    "blocks/indicators/__icon/indicators__icon-unlove.png",
-    "blocks/indicators/__icon/indicators__icon-disabled.png",
-    "blocks/indicators/__icon/indicators__icon-equalizer.gif",
-    "blocks/indicators/__icon/indicators__icon-pause.png",
-    "blocks/indicators/__icon/indicators__icon-check-blue.png",
-    "blocks/indicators/__icon/indicators__albumCover.png",
+    "blocks/player-view/__img/*",
+    "blocks/player-view/__img/player-view__img-tweet.png",
+    "blocks/player-view/__img/player-view__img-love.png",
+    "blocks/player-view/__img/player-view__img-unlove.png",
+    "blocks/player-view/__img/player-view__img-disabled.png",
+    "blocks/player-view/__img/player-view__img-equalizer.gif",
+    "blocks/player-view/__img/player-view__img-pause.png",
+    "blocks/player-view/__img/player-view__img-check-blue.png",
+    "blocks/player-view/__img/player-view__img-default-cover.png",
     "blocks/namespace/*",
     "blocks/namespace/namespace.js",
     "blocks/log/log.js",

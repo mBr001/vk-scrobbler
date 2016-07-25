@@ -167,8 +167,9 @@
 
   PlayerHandlers.prototype.showAlbumCover = function(response) {
     let imgUrl = response.track.album && response.track.album.image[1]["#text"];
-    album.modifyPlayer();
+    let title = response.track.album && response.track.album.title;
     album.setAlbumCover(imgUrl);
+    album.setAlbumTitle(title);
   };
 
   window.vkScrobbler.PlayerHandlers = PlayerHandlers;
