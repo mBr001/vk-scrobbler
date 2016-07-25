@@ -14,8 +14,9 @@
     //observe players inserting in document to instantly insert indicators nodes
     var playersObserver = new MutationObserver(function(mutations) {
         mutations.map(function(mutation) {
-            // console.log("class: "+mutation.target.className);
-            if (mutation.target.classList && mutation.target.classList.contains('top_audio_layer')) {
+            console.log("class: "+mutation.target.className);
+            if (mutation.target.classList && mutation.target.classList.contains('top_audio_layer') ||
+            mutation.target.classList.contains('audio_page_player_track_wrap')) {
               Indicators.SetDropdownIndicators();
               Indicators.SetAudioPageIndicators();
               log.i("Indicators inserted in the new music pad.");
