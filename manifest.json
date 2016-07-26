@@ -43,6 +43,7 @@
       "blocks/player-view/player-view__indicators.js",
       "blocks/player-view/player-view__indicators__old.js",
       "blocks/player-view/player-view__album.js",
+      "blocks/player-view/player-view__player-view.js",
       "blocks/bus/bus__content.js",
       "blocks/content/content__messages.js",
       "blocks/content/content__bus-wrapper.js",

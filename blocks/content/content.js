@@ -1,27 +1,25 @@
 (function() {
   'use strict';
-  var Indicators = window.vkScrobbler.Indicators;
-  var IndicatorsOld = window.vkScrobbler.IndicatorsOld;
-  var album = window.vkScrobbler.album;
+
   var playerHandlers = new window.vkScrobbler.PlayerHandlers();
   var scriptInjector = window.vkScrobbler.scriptInjector;
+  let playerView = window.vkScrobbler.playerView;
+  let IndicatorsOld = window.vkScrobbler.IndicatorsOld;
   var isOldUI = Boolean(document.getElementById('top_new_msg')); //new UI doesn't have this element
   var log = window.vkScrobbler.log;
 
-  log.i('content.js: New ui detected = '+ !isOldUI);
+  log.i('content.js: New ui detected = ' + !isOldUI);
 
   function instantIndicatorsInserter() {
     //observe players inserting in document to instantly insert indicators nodes
     var playersObserver = new MutationObserver(function(mutations) {
         mutations.map(function(mutation) {
-            console.log("class: "+mutation.target.className);
-            if (mutation.target.classList && mutation.target.classList.contains('top_audio_layer') ||
-            mutation.target.classList.contains('audio_page_player_track_wrap')) {
-              Indicators.SetDropdownIndicators();
-              Indicators.SetAudioPageIndicators();
-              log.i("Indicators inserted in the new music pad.");
-              return;
-            }
+          // console.log("class: "+mutation.target.className);
+          if (mutation.target.classList && mutation.target.classList.contains('top_audio_layer')){
+            playerView.modifyDropdown();
+            playerView.modifyAudioPage();
+            return;
+          }
         });
       }),
       options = {
@@ -30,13 +28,13 @@
       };
     playersObserver.observe(document.body, options);
 
-    //If audio page is a landing page, then just attaching indicators
-    Indicators.SetAudioPageIndicators();
-    Indicators.SetHeaderIndicator();
+    //If audio page is a landing page, then just attaching indicators etc
+    playerView.modifyAudioPage();
+    playerView.modifyHeader();
 
     window.addEventListener('load', function() {
-      Indicators.SetAudioPageIndicators();
-      Indicators.SetHeaderIndicator();
+      playerView.modifyAudioPage();
+      playerView.modifyHeader();
     });
   }
 
@@ -80,7 +78,6 @@
       instantIndicatorsInserterOld();
     } else {
       instantIndicatorsInserter();
-      album.modifyPlayer();
     }
 
     scriptInjector.injectPatcher();

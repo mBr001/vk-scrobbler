@@ -1,8 +1,8 @@
 (function(){
   'use strict';
 
-  var EIndicateState = window.vkScrobbler.IdicatorsUtils.EIndicateState;
-  var PATHS = window.vkScrobbler.IdicatorsUtils.PATHS;
+  var EIndicateState = window.vkScrobbler.playerViewUtils.EIndicateState;
+  var PATHS = window.vkScrobbler.playerViewUtils.PATHS;
 
   var byId = document.getElementById.bind(document);
   var qsa = document.querySelectorAll.bind(document);
@@ -15,7 +15,7 @@
       }
     };
   };
-  
+
   var DURATION_MARGIN = '12px';
 
   var IndicatorsOld = {
@@ -236,4 +236,3 @@
 
   window.vkScrobbler.IndicatorsOld = IndicatorsOld;
 })();
-

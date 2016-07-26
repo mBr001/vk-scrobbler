@@ -1,8 +1,8 @@
 (function() {
   'use strict';
 
-  var EIndicateState = window.vkScrobbler.IdicatorsUtils.EIndicateState;
-  var PATHS = window.vkScrobbler.IdicatorsUtils.PATHS;
+  var EIndicateState = window.vkScrobbler.playerViewUtils.EIndicateState;
+  var PATHS = window.vkScrobbler.playerViewUtils.PATHS;
 
   var byId = document.getElementById.bind(document);
   var qs = document.querySelector.bind(document);
