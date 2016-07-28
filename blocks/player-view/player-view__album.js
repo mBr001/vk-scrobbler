@@ -24,6 +24,7 @@
       let span = document.createElement('span');
       span.setAttribute("id", "albumTitle");
       wrapperAr.map((div) => div.appendChild(span));
+      log.i("createAlbumTitleHolder");
     },
 
     setAlbumTitle: function(title) {

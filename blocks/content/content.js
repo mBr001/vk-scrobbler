@@ -10,23 +10,30 @@
 
   log.i('content.js: New ui detected = ' + !isOldUI);
 
+  // Observing document and #wrap3 to insert things instantly
   function instantIndicatorsInserter() {
-    //observe players inserting in document to instantly insert indicators nodes
-    var playersObserver = new MutationObserver(function(mutations) {
-        mutations.map(function(mutation) {
-          // console.log("class: "+mutation.target.className);
-          if (mutation.target.classList && mutation.target.classList.contains('top_audio_layer')){
-            playerView.modifyDropdown();
-            playerView.modifyAudioPage();
-            return;
-          }
-        });
-      }),
-      options = {
-        'childList': true,
-        'subtree': true
-      };
-    playersObserver.observe(document.body, options);
+    var dropdownObserver = new MutationObserver(function(mutations) {
+      mutations.map(function(mutation) {
+        // console.log("Mutation:" + mutation.target.classList);
+        if (mutation.target.classList && mutation.target.classList.contains('top_audio_layer')) {
+          playerView.modifyDropdown();
+        }
+      });
+    });
+    var audioPageObserver = new MutationObserver(function(mutations) {
+      mutations.map(function(mutation) {
+        // console.log("Mutation:" + mutation.target.classList);
+        if (mutation.target.classList && mutation.target.classList.contains('audio_page_player_duration')) {
+          playerView.modifyAudioPage();
+        }
+      });
+    });
+    let options = {
+      'childList': true,
+      'subtree': true
+    };
+    dropdownObserver.observe(document.body, options);
+    audioPageObserver.observe(document.getElementById("wrap3"), options);
 
     //If audio page is a landing page, then just attaching indicators etc
     playerView.modifyAudioPage();
