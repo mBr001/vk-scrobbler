@@ -11,6 +11,9 @@
   log.i('content.js: New ui detected = ' + !isOldUI);
 
   // Observing document and #wrap3 to insert things instantly
+  // There is need for two MO, because of audiopage. When audiopage
+  // is not a landing page and user opens it from menu - MO can't
+  // detect a specific mutation
   function instantIndicatorsInserter() {
     var dropdownObserver = new MutationObserver(function(mutations) {
       mutations.map(function(mutation) {
@@ -23,7 +26,7 @@
     var audioPageObserver = new MutationObserver(function(mutations) {
       mutations.map(function(mutation) {
         // console.log("Mutation:" + mutation.target.classList);
-        if (mutation.target.classList && mutation.target.classList.contains('audio_page_player_duration')) {
+        if (mutation.target.classList && mutation.target.classList.contains('_audio_additional_blocks_wrap')) {
           playerView.modifyAudioPage();
         }
       });
